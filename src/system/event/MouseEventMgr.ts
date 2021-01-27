@@ -2,6 +2,7 @@
 import DisPlayNode from "../display/DisPlayNode";
 import Canvas from "../global/Canvas";
 import { TOUCH_BEGIN, TOUCH_MOVE, TOUCH_TAP } from "./EventConst";
+import SysTemTouchEvent from "./eventStruct/SysTemTouchEvent";
 
 
 export default class MouseEventMgr {
@@ -22,25 +23,35 @@ export default class MouseEventMgr {
     private onMove = (e: MouseEvent) => {
         let { pageX, pageY } = e;
         let list = this.getClickList(pageX, pageY);
+        let evt = SysTemTouchEvent.create(e);
+        evt.target = list[0];
+        evt.type = "touchMove";
         for (let node of list) {
-            node.dispatch(TOUCH_MOVE);
+            evt.currentTarget = node;
+            node.dispatch(TOUCH_MOVE, evt);
+            if (evt._stopEvent) break;
         }
+        evt.currentTarget = this.canvas.stage;
+        this.canvas.stage.dispatch(TOUCH_MOVE, evt);
+        evt.release();
     }
 
     private onDown = (e: MouseEvent) => {
         let { pageX, pageY } = e;
         let list = this.getClickList(pageX, pageY);
+        let evt = SysTemTouchEvent.create(e);
+        evt.type = "touchBegin";
+        evt.target = list[0];
         this.downList = list;
         let idx = 0;
         for (let node of list) {
             idx++;
-            node.dispatch(TOUCH_BEGIN);
-            if (!node.mouseThrough) {
-                this.downList.splice(idx);
-                break;
-            }
+            evt.currentTarget = node;
+            node.dispatch(TOUCH_BEGIN, evt);
+            if (evt._stopEvent) break;
         }
-        this.canvas.stage.dispatch(TOUCH_BEGIN);
+        evt.currentTarget = this.canvas.stage;
+        this.canvas.stage.dispatch(TOUCH_BEGIN, evt);
     }
 
     private onUp = (e: MouseEvent) => {
@@ -50,14 +61,10 @@ export default class MouseEventMgr {
         for (let node of list) {
             idx++;
             node.dispatch(TOUCH_BEGIN);
-            if (!node.mouseThrough) {
-                list.splice(idx);
-                break;
-            }
         }
-        for(let node of list){
-            if(this.downList.indexOf(node) >= 0){
-                node.dispatch(TOUCH_TAP)
+        for (let node of list) {
+            if (this.downList.indexOf(node) >= 0) {
+                node.dispatch(TOUCH_TAP);
             }
         }
     }
