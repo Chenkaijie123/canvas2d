@@ -7,7 +7,7 @@ import Point from "./math/Point";
 
 export default class Display extends Dispatcher {
     private static readonly TOUCHEVT: symbol[] = [TOUCH_BEGIN, TOUCH_MOVE, TOUCH_TAP, TOUCH_CANCEL];
-    private mouseEvtCount = 0;
+    // private mouseEvtCount = 0;
     private _x: number = 0;
     private _y: number = 0;
     private _width: number = 0;
@@ -20,7 +20,7 @@ export default class Display extends Dispatcher {
     private _scrollX: number = 0;
     private _scrollY: number = 0;
     private matrixUpdate:boolean = true;
-    _tempPoint: Point;;
+    _tempPoint: Point = new Point;
     _inverseMatrix:Matrix = new Matrix
 
     visible = true;
@@ -137,10 +137,8 @@ export default class Display extends Dispatcher {
     on(type: string | symbol, callback: Function, caller: any, args?: any[]): boolean {
         let state = super.on(type, callback, caller, args);
         if (typeof type == "symbol" && Display.TOUCHEVT.indexOf(type) >= 0 && state) {
-            this.mouseEvtCount++;
-            if (!this._tempPoint) {
-                this._tempPoint = new Point;
-            }
+            // this.mouseEvtCount++;
+ 
         }
         return state;
     }
@@ -148,19 +146,16 @@ export default class Display extends Dispatcher {
     off(type: string | symbol, callback: Function, caller: any): boolean {
         let state = super.off(type, callback, caller);
         if (typeof type == "symbol" && Display.TOUCHEVT.indexOf(type) >= 0 && state) {
-            this.mouseEvtCount--;
+            // this.mouseEvtCount--;
         }
         return state;
     }
 
     clear(): void {
         super.clear();
-        this.mouseEvtCount = 0;
+        // this.mouseEvtCount = 0;
     }
 
-    needCheckMouseEvt(): boolean {
-        return this.alpha > 0 && this.visible && this.mouseEvtCount > 0;
 
-    }
 
 }

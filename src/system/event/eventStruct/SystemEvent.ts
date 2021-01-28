@@ -3,7 +3,7 @@ export default class SystemEvent{
     _stopEvent:boolean = false;
     target:any
     currentTarget:any;
-    type:"touchBegin"|"touchMove" | "touchTap"|"system"|"touchEnd"
+    type:"touchBegin"|"touchMove" | "touchTap"|"system"|"touchEnd"|"touchCancel"
     release():void{
         this.sourceEvent = this.target = this.currentTarget = null;
         this.type = null;

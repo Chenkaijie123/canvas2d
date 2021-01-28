@@ -1,16 +1,18 @@
 import Dispatcher from "../event/Dispatcher"
 import { CALL_FRAME } from "../event/EventConst"
+import SystemPerformance from "../SystemPerformance";
 
 export default class Ticker extends Dispatcher{
     private state:number = 0;
     private isStop:boolean = true;
+    @SystemPerformance.logCostTime("loop")
     private loop():void{
         if(this.state != 1) {
             this.isStop = true;
             return;
         }
         this.dispatch(CALL_FRAME);
-        window.requestAnimationFrame(this.loop.bind(this))
+        window.requestAnimationFrame(this.loop.bind(this));
     }
 
     addLoop(callback:Function,caller:any){
