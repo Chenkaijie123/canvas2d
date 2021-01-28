@@ -1,13 +1,21 @@
 
 import DisPlayNode from "../display/DisPlayNode";
+import Point from "../display/math/Point";
 import Canvas from "../global/Canvas";
+import GlobalMgr from "../global/GlobalMgr";
 import { TOUCH_BEGIN, TOUCH_CANCEL, TOUCH_DOUBLE, TOUCH_END, TOUCH_MOVE, TOUCH_TAP } from "./EventConst";
 import SysTemTouchEvent from "./eventStruct/SysTemTouchEvent";
 
 
 export default class MouseEventMgr {
     private canvas: Canvas;
+    //按下检查到的显示对象
     private downList: DisPlayNode[];
+    //单次处理的鼠标移动事件数量
+    private readonly moveEvtCount:number = 2;
+    //保存上一次鼠标移动的点
+    private movePoint:Point = new Point;
+    private moveEvt:MouseEvent[] = []
     constructor(canvas: Canvas) {
         this.canvas = canvas;
         this.init();
@@ -15,9 +23,25 @@ export default class MouseEventMgr {
 
     init(): void {
         this.canvas.canvasDom.addEventListener("dblclick", this.ondbclick);
-        this.canvas.canvasDom.addEventListener("mousemove", this.onMove);
+        this.canvas.canvasDom.addEventListener("mousemove", this.addToQueue);
         this.canvas.canvasDom.addEventListener("mousedown", this.onDown);
         this.canvas.canvasDom.addEventListener("mouseup", this.onUp);
+        GlobalMgr.ticker.addLoop(this.dealMove,this);
+    }
+
+    private addToQueue = (e:MouseEvent) => {
+        if(Math.abs(this.movePoint.x - e.pageX) < 3 &&Math.abs(this.movePoint.y - e.pageY) < 3) return;
+        this.movePoint.x = e.pageX;
+        this.movePoint.y = e.pageY;
+        this.moveEvt.push(e)
+    }
+
+    private dealMove():void{
+        for(let i = 0;i< this.moveEvtCount;i++){
+            let e = this.moveEvt.shift();
+            if(!e) return;
+            this.onMove(e)
+        }
     }
 
     private onMove = (e: MouseEvent) => {
@@ -99,6 +123,7 @@ export default class MouseEventMgr {
         evt.currentTarget = this.canvas.stage;
         this.canvas.stage.dispatch(TOUCH_TAP, evt);
         evt.release();
+        this.downList.length = 0;
     }
 
     private ondbclick = (e: MouseEvent) => {

@@ -9,7 +9,7 @@ export default class Canvas {
     render: Render;
     stage: Stage;
     ticker: Ticker;
-    mouseEvtMgr :MouseEventMgr;
+    mouseEvtMgr: MouseEventMgr;
     constructor() {
         this.canvasDom = document.createElement("canvas");
         this.canvasDom.width = window.innerWidth;
@@ -19,7 +19,7 @@ export default class Canvas {
         this.stage.init(window.innerWidth, window.innerHeight);
         this.render = new Render;
         this.render.init(this.canvasDom, this.stage);
-        this.ticker = new Ticker;
+        this.ticker = GlobalMgr.ticker = new Ticker;
         this.ticker.addLoop(this.startRender, this);
         this.ticker.start();
         this.mouseEvtMgr = new MouseEventMgr(this);

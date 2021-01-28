@@ -1,12 +1,11 @@
 
 import Dispatcher from "../event/Dispatcher";
-import { TOUCH_BEGIN, TOUCH_CANCEL, TOUCH_MOVE, TOUCH_TAP } from "../event/EventConst";
 import Render from "../render/Render";
 import Matrix from "./math/Matrix";
 import Point from "./math/Point";
 
 export default class Display extends Dispatcher {
-    private static readonly TOUCHEVT: symbol[] = [TOUCH_BEGIN, TOUCH_MOVE, TOUCH_TAP, TOUCH_CANCEL];
+    
     // private mouseEvtCount = 0;
     private _x: number = 0;
     private _y: number = 0;
@@ -30,7 +29,7 @@ export default class Display extends Dispatcher {
     updateValue: boolean = true;
     autoReSize: boolean = true;
     matrix: Matrix = new Matrix;
-    ignoreMouseEnvent:boolean = false;//设为true可大幅度提升鼠标事件性能，将忽略该节点下所有的显示元素检查
+    ignoreMouseEnvent:boolean = true;//设为true可大幅度提升鼠标事件性能，将忽略该节点下所有的显示元素检查
     get x() { return this._x }
     set x(v: number) {
         if (this._x == v) return;
@@ -134,26 +133,10 @@ export default class Display extends Dispatcher {
     }
 
 
-    on(type: string | symbol, callback: Function, caller: any, args?: any[]): boolean {
-        let state = super.on(type, callback, caller, args);
-        if (typeof type == "symbol" && Display.TOUCHEVT.indexOf(type) >= 0 && state) {
-            // this.mouseEvtCount++;
- 
-        }
-        return state;
-    }
 
-    off(type: string | symbol, callback: Function, caller: any): boolean {
-        let state = super.off(type, callback, caller);
-        if (typeof type == "symbol" && Display.TOUCHEVT.indexOf(type) >= 0 && state) {
-            // this.mouseEvtCount--;
-        }
-        return state;
-    }
 
     clear(): void {
         super.clear();
-        // this.mouseEvtCount = 0;
     }
 
 

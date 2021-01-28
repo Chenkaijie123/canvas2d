@@ -1,4 +1,5 @@
 export default class SystemPerformance{
+    /***打印消耗 */
     static logCostTime(lab:string,limited:number = 0){
         return function(target,key:string,attr:any){
             const old = attr.value;

@@ -19,21 +19,24 @@ export default class MouseEvtTest extends TestBase{
         img.on(TOUCH_BEGIN,()=>{console.log("begin")},this)
         img.on(TOUCH_MOVE,()=>{console.log("move")},this)
         GlobalMgr.stage.addChild(img)
-        for(let i = 0;i < 40;i++){
-            for(let j = 0 ; j < 20;j++){
-                let lab = new CLabel;
-                lab.text = "hello"
-                lab.x = i * 50
-                lab.y = j * 30
-                if(i % 2 || j % 2) lab.fontColor = "#ffe867"
-                GlobalMgr.stage.addChild(lab)
-            }
-        }
+        // let b = new CImage;
+        // GlobalMgr.stage.addChild(b)
+        // for(let i = 0;i < 100;i++){
+        //     for(let j = 0 ; j < 20;j++){
+        //         let lab = new CLabel;
+        //         lab.text = "hello"
+        //         lab.x = i * 50
+        //         lab.y = j * 30
+        //         if(i % 2 || j % 2) lab.fontColor = "#ffe867"
+        //         b.addChild(lab)
+        //     }
+        // }
         let test = new CLabel
         test.fontColor = "#aabca1"
         test.x = 100
         img.addChild(test)
         test.text = "?????"
+        GlobalMgr.ticker.nextTick(()=>{console.log("nexttick")},this)
     }
 
 }
