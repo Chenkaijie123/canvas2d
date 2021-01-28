@@ -31,12 +31,20 @@ export default class MouseEvtTest extends TestBase{
         //         b.addChild(lab)
         //     }
         // }
-        let test = new CLabel
-        test.fontColor = "#aabca1"
-        test.x = 100
-        img.addChild(test)
-        test.text = "?????"
-        GlobalMgr.ticker.nextTick(()=>{console.log("nexttick")},this)
+        // for(let i = 0;i < 200;i++){
+        //     for(let j = 0; j < 20 ;j++){
+        //         let p = new CImage;
+        //         p.x = i * 60;
+        //         p.y = j * 60;
+        //         p.src = "./90.jpg";
+        //         p.setSprites(30,10,60,60)
+        //         GlobalMgr.stage.addChild(p)
+        //     }
+        // }
+        let lab = new CLabel
+        lab.text = "???"
+        GlobalMgr.stage.addChild(lab);
+        
     }
 
 }
