@@ -31,7 +31,6 @@ export default class Display extends Dispatcher {
     autoReSize: boolean = true;
     matrix: Matrix = new Matrix;
     ignoreMouseEnvent:boolean = false;//设为true可大幅度提升鼠标事件性能，将忽略该节点下所有的显示元素检查
-    mouseThrough:boolean = false;//鼠标穿透
     get x() { return this._x }
     set x(v: number) {
         if (this._x == v) return;
