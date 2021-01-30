@@ -15,5 +15,6 @@ export default class ByteTest extends TestBase{
         console.log(byte.readInt8())
         console.log(byte.readInt8())
         console.log(byte.readInt32())
+        console.log(byte)
     }
 }
