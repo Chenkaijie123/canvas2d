@@ -1,5 +1,6 @@
 
 import Canvas from "./system/global/Canvas";
+import GlobalMgr from "./system/global/GlobalMgr";
 import Test from "./test/Test";
 
 
@@ -16,7 +17,7 @@ class Main{
 
     private initAll = (e) => {
         window.removeEventListener("load",this.initAll);
-        this.canvas = new Canvas;
+        GlobalMgr.canvas = this.canvas = new Canvas;
         this.test();
     }
 
