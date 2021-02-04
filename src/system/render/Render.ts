@@ -1,4 +1,6 @@
+import { draw_type } from "../display/compoment/cmd/GraphicalCMD";
 import DisPlayNode from "../display/DisPlayNode";
+import Byte from "../display/math/Byte";
 import Stage from "../display/Stage";
 
 export default class Render {
@@ -13,7 +15,8 @@ export default class Render {
     private _fontFamily: string = "sans-serif";
 
     private needsUpdateStroke: boolean = true;
-    private _strokeColor: string = "#000000"
+    private _strokeColor: string = "#000000";
+    private _lineWidth:number = 1;
     get fontSize() { return this._fontSize }
     set fontSize(v: number) {
         if (this._fontSize == v) return;
@@ -38,6 +41,12 @@ export default class Render {
         this._strokeColor = v;
         this.needsUpdateStroke = true;
     }
+    get lineWidth():number{return this._lineWidth}
+    set lineWidth(v:number){
+        if(this._lineWidth == v) return;
+        this._lineWidth = v;
+        this.needsUpdateStroke = true;
+    }
     updateFontContent(force: boolean = false): void {
         if (this.needUpdateContent || force) {
             this.needUpdateContent = false;
@@ -48,7 +57,8 @@ export default class Render {
     updateStokeContent(force: boolean = false): void {
         if (this.needsUpdateStroke || force) {
             this.needsUpdateStroke = false;
-            this.ctx.strokeStyle = this._strokeColor
+            this.ctx.strokeStyle = this._strokeColor;
+            this.ctx.lineWidth = this._lineWidth;
         }
     }
     init(canvas: HTMLCanvasElement, stage: Stage): void {
@@ -80,5 +90,29 @@ export default class Render {
 
     clear(): void {
         this.ctx.clearRect(0, 0, this.width, this.height)
+    }
+
+    //绘制指令
+    renderCMD(buffer:Byte):void{
+        buffer.pointToStart();
+        let type: draw_type = buffer.readUint8();
+        let len: number = buffer.readUint16();
+        let color: string = (new Number(buffer.readUint32())).toString(16);
+        switch (type) {
+            case draw_type.line:
+                if (len < 2) {
+                    console.warn("小于两个点怎么画线段？？？")
+                    return;
+                }
+                this.strokeColor = "#" + color;
+                this.lineWidth = buffer.readUint8();
+                this.ctx.beginPath();
+                this.ctx.moveTo(buffer.readUint16(), buffer.readUint16())
+                for (let i = 1; i < len; i++) {
+                    this.ctx.lineTo(buffer.readUint16(), buffer.readUint16());
+                }
+                this.ctx.stroke();
+                break;
+        }
     }
 }

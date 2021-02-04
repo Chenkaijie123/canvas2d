@@ -13,6 +13,11 @@ export default class Byte {
         this.view = new DataView(this.buffer.buffer);
     }
 
+    //慎用!!!
+    pointToStart():void{
+        this.position = 0;
+    }
+
     clear(): void {
         this.position = 0;
         this.wirtePosition = 0;
