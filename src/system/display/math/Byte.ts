@@ -14,7 +14,7 @@ export default class Byte {
     }
 
     //慎用!!!
-    pointToStart():void{
+    pointToStart(): void {
         this.position = 0;
     }
 
@@ -94,6 +94,12 @@ export default class Byte {
         return this.view.getInt8(pos);
     }
 
+    readBoolean(): boolean {
+        let pos = this.position;
+        this.position++;
+        return this.view.getInt8(pos) == 1;
+    }
+
     writeBigInt64(value: bigint) {
         this.ensure(this.wirtePosition + 8);
         this.view.setBigInt64(this.wirtePosition, value, littleEndian);
@@ -150,6 +156,12 @@ export default class Byte {
     writeUint8(value: number) {
         this.ensure(this.wirtePosition + 1);
         this.view.setUint8(this.wirtePosition, value);
+        this.wirtePosition += 1;
+    }
+
+    writeBoolean(value: boolean) {
+        this.ensure(this.wirtePosition + 1);
+        this.view.setInt8(this.wirtePosition, value ? 1 : 0);
         this.wirtePosition += 1;
     }
 

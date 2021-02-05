@@ -2,12 +2,11 @@ import Render from "../../../render/Render";
 import Byte from "../../math/Byte"
 
 export default class GraphicalCMD {
-    type: graphical_type
     buffer: Byte = new Byte;
 
 
     render(render: Render): void {
-        render.renderCMD(this.buffer);
+        render.renderByte(this.buffer);
     }
 
     writeAsByte(): void {
@@ -18,10 +17,8 @@ export default class GraphicalCMD {
 
 }
 
-export enum graphical_type {
-    line, surface
-}
+
 
 export enum draw_type {
-    line,
+    line,curve,arc,circle,bezir
 }

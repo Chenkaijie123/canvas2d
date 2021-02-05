@@ -16,7 +16,7 @@ export default class Render {
 
     private needsUpdateStroke: boolean = true;
     private _strokeColor: string = "#000000";
-    private _lineWidth:number = 1;
+    private _lineWidth: number = 1;
     get fontSize() { return this._fontSize }
     set fontSize(v: number) {
         if (this._fontSize == v) return;
@@ -41,9 +41,9 @@ export default class Render {
         this._strokeColor = v;
         this.needsUpdateStroke = true;
     }
-    get lineWidth():number{return this._lineWidth}
-    set lineWidth(v:number){
-        if(this._lineWidth == v) return;
+    get lineWidth(): number { return this._lineWidth }
+    set lineWidth(v: number) {
+        if (this._lineWidth == v) return;
         this._lineWidth = v;
         this.needsUpdateStroke = true;
     }
@@ -93,10 +93,10 @@ export default class Render {
     }
 
     //绘制指令
-    renderCMD(buffer:Byte):void{
+    renderByte(buffer: Byte): void {
         buffer.pointToStart();
         let type: draw_type = buffer.readUint8();
-        let len: number = buffer.readUint16();
+        let len: number = buffer.readUint32();
         let color: string = (new Number(buffer.readUint32())).toString(16);
         switch (type) {
             case draw_type.line:
@@ -106,11 +106,82 @@ export default class Render {
                 }
                 this.strokeColor = "#" + color;
                 this.lineWidth = buffer.readUint8();
+                this.updateStokeContent();
                 this.ctx.beginPath();
                 this.ctx.moveTo(buffer.readUint16(), buffer.readUint16())
                 for (let i = 1; i < len; i++) {
                     this.ctx.lineTo(buffer.readUint16(), buffer.readUint16());
                 }
+                this.ctx.stroke();
+                break;
+            case draw_type.curve:
+                if (len < 3) {
+                    console.warn("又搞事，曲线要3个点")
+                    return;
+                }
+                this.strokeColor = "#" + color;
+                this.lineWidth = buffer.readUint8();
+                this.updateStokeContent();
+                this.ctx.beginPath();
+                let x1: number = buffer.readUint16(),
+                    y1: number = buffer.readUint16(),
+                    x2: number = buffer.readUint16(),
+                    y2: number = buffer.readUint16(),
+                    x3: number = buffer.readUint16(),
+                    y3: number = buffer.readUint16(),
+                    midX: number,
+                    midY: number;
+                for (let i = 3; i < len; i++) {
+                    midX = x2 + x3 >> 1,
+                        midY = y2 + y3 >> 1;
+                    this.ctx.moveTo(x1, y1);
+                    this.ctx.quadraticCurveTo(x2, y2, midX, midY);
+                    x1 = midX;
+                    y1 = midY;
+                    x2 = x3;
+                    y2 = y3;
+                    x3 = buffer.readUint16();
+                    y3 = buffer.readUint16();
+                }
+                this.ctx.stroke();
+                break;
+            case draw_type.bezir:
+                this.strokeColor = "#" + color;
+                this.lineWidth = buffer.readUint8();
+                this.updateStokeContent();
+                this.ctx.beginPath();
+                this.ctx.moveTo(buffer.readUint16(), buffer.readUint16());
+                this.ctx.bezierCurveTo(
+                    buffer.readUint16(), buffer.readUint16(),
+                    buffer.readUint16(), buffer.readUint16(),
+                    buffer.readUint16(), buffer.readUint16()
+                );
+                this.ctx.stroke();
+                break;
+            case draw_type.arc:
+                this.strokeColor = "#" + color;
+                this.lineWidth = buffer.readUint8();
+                this.updateStokeContent();
+                this.ctx.beginPath();
+                this.ctx.arc(
+                    buffer.readUint16(), buffer.readUint16(),
+                    buffer.readUint16(),
+                    buffer.readUint8(), buffer.readUint8(),
+                    buffer.readBoolean()
+                );
+                this.ctx.stroke();
+                break;
+            case draw_type.circle:
+                this.strokeColor = "#" + color;
+                this.lineWidth = buffer.readUint8();
+                this.updateStokeContent();
+                this.ctx.beginPath();
+                this.ctx.arc(
+                    buffer.readUint16(), buffer.readUint16(),
+                    buffer.readUint16(),
+                    0, 360,
+                    true
+                );
                 this.ctx.stroke();
                 break;
         }

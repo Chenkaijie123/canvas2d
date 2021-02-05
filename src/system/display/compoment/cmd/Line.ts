@@ -26,7 +26,7 @@ export default class Line extends GraphicalBase {
         let buffer = this.cmd.buffer;
         buffer.clear();
         buffer.writeUint8(draw_type.line);
-        buffer.writeUint16(this.point.length >> 1);
+        buffer.writeUint32(this.point.length >> 1);
         buffer.writeUint32(this._color);
         buffer.writeUint8(this.lineWidth);
         for (let i of this.point) {
