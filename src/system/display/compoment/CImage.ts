@@ -34,16 +34,16 @@ export default class CImage extends DisPlayNode {
 
     private loadComplete(): void {
         this.texture.init(this.src, this.sprites.x, this.sprites.y, this.sprites.width, this.sprites.height);
-        this._measure();
+        this._measureAndLayout();
     }
 
-    private _measure(): void {
+    protected onMeasure(): void {
         if (!this.texture.hasTexture) return;
         this.contentWidth = this.texture.width;
         this.contentHeight = this.texture.height;
         if (this.autoReSize) {
-            this.width = this.contentWidth;
-            this.height = this.contentHeight;
+            this["_width"] = this.contentWidth;
+            this["_height"] = this.contentHeight;
         }
     }
 

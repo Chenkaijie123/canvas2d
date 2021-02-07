@@ -5,7 +5,7 @@ import SystemPerformance from "../SystemPerformance";
 export default class Ticker extends Dispatcher {
     private state: number = 0;
     private isStop: boolean = true;
-    @SystemPerformance.logCostTime("loop",10)
+    @SystemPerformance.logCostTime("loop", 10)
     private loop(): void {
         if (this.state != 1) {
             this.isStop = true;
@@ -15,12 +15,8 @@ export default class Ticker extends Dispatcher {
         window.requestAnimationFrame(this.loop.bind(this));
     }
 
-    nextTick(callback: Function, caller: any): void {
-        const fn = () => {
-            callback.call(caller);
-            this.removeLoop(fn, this);
-        }
-        this.addLoop(fn, this);
+    nextTick(callback: Function, caller: any, args?: any[]): void {
+        this.once(CALL_FRAME, callback, caller, args);
     }
 
     addLoop(callback: Function, caller: any) {

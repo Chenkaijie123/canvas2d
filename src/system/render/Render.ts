@@ -2,6 +2,7 @@ import { draw_type } from "../display/compoment/cmd/GraphicalCMD";
 import DisPlayNode from "../display/DisPlayNode";
 import Byte from "../display/math/Byte";
 import Stage from "../display/Stage";
+import MathUtil from "../utils/MathUtil";
 
 export default class Render {
     ctx: CanvasRenderingContext2D
@@ -95,7 +96,7 @@ export default class Render {
     //绘制指令
     renderByte(buffer: Byte): void {
         buffer.pointToStart();
-        let type: draw_type = buffer.readUint8();
+        let type: draw_type = buffer.readInt8();
         let len: number = buffer.readUint32();
         let color: string = (new Number(buffer.readUint32())).toString(16);
         switch (type) {
@@ -166,7 +167,7 @@ export default class Render {
                 this.ctx.arc(
                     buffer.readUint16(), buffer.readUint16(),
                     buffer.readUint16(),
-                    buffer.readUint8(), buffer.readUint8(),
+                    MathUtil.getRadin(buffer.readUint16()), MathUtil.getRadin(buffer.readUint16()),
                     buffer.readBoolean()
                 );
                 this.ctx.stroke();
@@ -179,11 +180,32 @@ export default class Render {
                 this.ctx.arc(
                     buffer.readUint16(), buffer.readUint16(),
                     buffer.readUint16(),
-                    0, 360,
+                    0, MathUtil.getRadin(360),
                     true
                 );
                 this.ctx.stroke();
                 break;
+            case draw_type.rect:
+                this.fontColor = "#" + color;
+                this.updateFontContent();
+                this.ctx.beginPath();
+                this.ctx.fillRect(buffer.readInt16(), buffer.readInt16(), buffer.readInt16(), buffer.readInt16());
+                break;
+            case draw_type.circleFill:
+                this.fontColor =  "#" + color;
+                this.updateFontContent();
+                this.ctx.beginPath();
+                this.ctx.arc(
+                    buffer.readUint16(), buffer.readUint16(),
+                    buffer.readUint16(),
+                    0, MathUtil.getRadin(360),
+                    true
+                );
+                this.ctx.fill();
+                break;
+        }
+        if (!buffer.readEnd) {
+            console.warn(`${type} 参数格式错误`)
         }
     }
 }

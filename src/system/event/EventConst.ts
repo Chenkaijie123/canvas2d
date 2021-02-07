@@ -11,3 +11,6 @@ export const TOUCH_MOVE: symbol = Symbol();
 export const TOUCH_CANCEL: symbol = Symbol();
 export const TOUCH_TAP: symbol = Symbol();
 export const TOUCH_DOUBLE:symbol = Symbol();
+
+//--------ui--------------
+export const SIZE_CHANGE:symbol = Symbol();

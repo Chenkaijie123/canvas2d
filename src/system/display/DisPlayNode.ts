@@ -1,7 +1,53 @@
 import { TOUCH_BEGIN, TOUCH_CANCEL, TOUCH_END, TOUCH_MOVE, TOUCH_TAP } from "../event/EventConst";
+import GlobalMgr from "../global/GlobalMgr";
+import ILayout from "./compoment/ui/ILayout";
+import Layout from "./compoment/ui/Layout";
 import Display from "./Display";
-export default class DisPlayNode extends Display {
+export default class DisPlayNode extends Display implements ILayout {
     private static readonly TOUCHEVT: symbol[] = [TOUCH_BEGIN, TOUCH_MOVE, TOUCH_TAP, TOUCH_CANCEL, TOUCH_END];
+    private _top: number = null;
+    private _bottom: number = null;
+    private _left: number = null;
+    private _right: number = null;
+    private _centerX: number = null;
+    private _centerY: number = null;
+
+    needLayout: boolean = false;
+    get top() { return this._top }
+    set top(v: number) {
+        this.needLayout = true;
+        this._top = v;
+    }
+    get bottom() { return this._bottom }
+    set bottom(v: number) {
+        this.needLayout = true;
+        this._bottom = v;
+    }
+    get left() { return this._left }
+    set left(v: number) {
+        this.needLayout = true;
+        this._left = v;
+        this._centerX = null;
+    }
+    get right() { return this._right }
+    set right(v: number) {
+        this.needLayout = true;
+        this._right = v;
+        this._centerX = null;
+    }
+    get centerX() { return this._centerX }
+    set centerX(v: number) {
+        this.needLayout = true;
+        this._centerX = v;
+        this.left = this.right = null;
+    }
+    get centerY() { return this._centerY }
+    set centerY(v: number) {
+        this.needLayout = true;
+        this._centerY = v;
+        this.top = this.bottom = null;
+    }
+
     parent: DisPlayNode
     children: DisPlayNode[] = []
 
@@ -46,6 +92,33 @@ export default class DisPlayNode extends Display {
             this.setFocusMouseEvt();
         }
         return state;
+    }
+
+
+
+    /**
+     * 测量size并且布局
+     * @private
+     */
+    protected _measureAndLayout(): void {
+        GlobalMgr.ticker.nextTick(this.measure, this);
+    }
+
+    private measure(): void {
+        this.onMeasure();
+        this.onLayout(this.children);
+    }
+
+    /**can override to layout */
+    protected onLayout(children: DisPlayNode[]): void {
+        if (this.needLayout) {
+            Layout.onLayout(children);
+        }
+    }
+
+    /**can override to layout */
+    protected onMeasure(): void {
+
     }
 
     private setFocusMouseEvt(): void {

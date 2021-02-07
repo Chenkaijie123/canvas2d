@@ -2,9 +2,9 @@ import Handle from "./Handle";
 
 export default class Dispatcher {
     private map: Map<string | symbol, Handle[]> = new Map;
-
+    private onceMap: Map<string | symbol, [Function, any][]> = new Map;
     on(type: string | symbol, callback: Function, caller: any, args?: any[]): boolean {
-        if(this.has(type, callback, caller)) return false;
+        if (this.has(type, callback, caller)) return false;
         let map = this.getEvtList(type);
         map.push(Handle.create(callback, caller, args));
         return true
@@ -16,6 +16,28 @@ export default class Dispatcher {
 
     has(type: string | symbol, callback: Function, caller: any): boolean {
         return this.check(type, callback, caller);
+    }
+
+    once(type: string | symbol, callback: Function, caller: any, args?: any[]): void {
+        let map = this.onceMap.get(type);
+        let needAdd: boolean = true;
+        if (!map) {
+            this.onceMap.set(type, [[callback, caller]]);
+        } else {
+            for (let i of map) {
+                if (i[0] == callback && i[1] == caller) {
+                    needAdd = false;
+                    break;
+                }
+            }
+        }
+        if (needAdd) {
+            const fn = () => {
+                callback.call(caller, args);
+                this.off(type, fn, this);
+            }
+            this.on(type, fn, this);
+        }
     }
 
     private check(type: string | symbol, callback: Function, caller: any, del: boolean = false): boolean {

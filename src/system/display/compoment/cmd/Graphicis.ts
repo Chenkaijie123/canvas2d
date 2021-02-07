@@ -9,6 +9,7 @@ export default class Graphicis extends DisPlayNode {
     private temp: number[] = [];
     private tempLineWidth: number = 1;
     private tempColor: string = "#c5b596";
+    private _fillColor: string = "#c5b596";
 
     render(render: Render): void {
         for (let i of this.cmds) {
@@ -35,7 +36,11 @@ export default class Graphicis extends DisPlayNode {
     set lineWidth(v: number) {
         this.tempLineWidth = v;
     }
-    strokeLine(x1: number, y1: number, x2: number, y2: number, 
+    get fillColor() { return this._fillColor }
+    set fillColor(v: string) {
+        this._fillColor = v;
+    }
+    strokeLine(x1: number, y1: number, x2: number, y2: number,
         color: string = this.tempColor, lineWidth: number = this.tempLineWidth): void {
         let byte = new Byte;
         byte.writeInt8(draw_type.line);
@@ -47,7 +52,7 @@ export default class Graphicis extends DisPlayNode {
     }
 
     strokeRect(
-        x: number, y: number, width: number, height: number, 
+        x: number, y: number, width: number, height: number,
         color: string = this.tempColor, lineWidth: number = this.tempLineWidth): void {
         let byte = new Byte;
         byte.writeInt8(draw_type.line);
@@ -99,27 +104,29 @@ export default class Graphicis extends DisPlayNode {
     strokeArc(
         x: number, y: number, radius: number, startAngle: number, endAngle: number, anticlockwise: boolean = true,
         color: string = this.tempColor, lineWidth: number = this.tempLineWidth): void {
+        startAngle %= 360;
+        endAngle %= 360;
         let byte = new Byte;
         byte.writeInt8(draw_type.arc);
         byte.writeUint32(0);
         byte.writeUint32(StringUtils.radix16To10(color));
         byte.writeUint8(lineWidth);
         this.writeUint16(byte, x, y, radius);
-        byte.writeUint8(startAngle);
-        byte.writeUint8(endAngle);
+        byte.writeUint16(startAngle);
+        byte.writeUint16(endAngle);
         byte.writeBoolean(anticlockwise);
         this.cmds.push(byte);
     }
 
     strokeCircle(
-        x:number,y:number,radius:number,
-        color:string = this.tempColor,lineWidth :number = this.tempLineWidth):void{
+        x: number, y: number, radius: number,
+        color: string = this.tempColor, lineWidth: number = this.tempLineWidth): void {
         let byte = new Byte;
         byte.writeInt8(draw_type.circle);
         byte.writeUint32(0);
         byte.writeUint32(StringUtils.radix16To10(color));
         byte.writeUint8(lineWidth);
-        this.writeUint16(byte, x,y,radius);
+        this.writeUint16(byte, x, y, radius);
         this.cmds.push(byte);
     }
 
@@ -141,6 +148,23 @@ export default class Graphicis extends DisPlayNode {
         this.cmds.push(byte);
     }
 
+    drawRect(x: number, y: number, width: number, height: number, color: string = this.fillColor): void {
+        let byte = new Byte;
+        byte.writeInt8(draw_type.rect);
+        byte.writeUint32(0);
+        byte.writeUint32(StringUtils.radix16To10(color));
+        this.writeUint16(byte, x, y, width, height);
+        this.cmds.push(byte);
+    }
+
+    drawCircle(x: number, y: number, radius: number, color: string = this.fillColor): void {
+        let byte = new Byte;
+        byte.writeInt8(draw_type.circleFill);
+        byte.writeUint32(0);
+        byte.writeUint32(StringUtils.radix16To10(color));
+        this.writeUint16(byte, x, y, radius);
+        this.cmds.push(byte);
+    }
 
 
 

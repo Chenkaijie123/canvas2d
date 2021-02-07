@@ -13,6 +13,10 @@ export default class Byte {
         this.view = new DataView(this.buffer.buffer);
     }
 
+    get readEnd(){
+        return this.position == this.len;
+    }
+
     //慎用!!!
     pointToStart(): void {
         this.position = 0;

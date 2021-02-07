@@ -5,7 +5,6 @@ export default class CLabel extends DisPlayNode {
     private wordMessage: number[] = [];
     private offsetXMessage: number[] = [];
     private offsetYMessage: number = 0;
-    private timerID: any;
 
     private _text: string = "";
     private _fontSize: number = 20;
@@ -20,36 +19,29 @@ export default class CLabel extends DisPlayNode {
     get text() { return this._text }
     set text(v: string) {
         this._text = v;
-        this.measure();
+        this._measureAndLayout();
     }
     get fontSize() { return this._fontSize }
     set fontSize(v: number) {
         if (this._fontSize == v) return;
         this._fontSize = v;
-        this.measure();
+        this._measureAndLayout();
     }
     get paddingTop() { return this._paddingTop }
     set paddingTop(v: number) {
         if (this._paddingTop == v) return;
         this._paddingTop = v;
-        this.measure();
+        this._measureAndLayout();
     }
 
 
-    measure(): void {
-        clearTimeout(this.timerID);
-        this.timerID = setTimeout(() => {
-            this._measure();
-        }, 0);
-    }
-
-    private _measure(): void {
+    protected onMeasure(): void {
         this.wordMessage.length = 0;
         this.offsetXMessage.length = 0;
         const len = this._text.length;
         if (this.autoReSize) {
-            this.width = this.contentWidth = this._text.length * this.fontSize;
-            this.height = this.contentHeight = this.fontSize;
+            this["_width"] = this.contentWidth = this._text.length * this.fontSize;
+            this["_height"] = this.contentHeight = this.fontSize;
             this.wordMessage.push(len);
             this.offsetXMessage.push(0);
         } else {

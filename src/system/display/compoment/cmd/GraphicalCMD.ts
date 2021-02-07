@@ -20,5 +20,5 @@ export default class GraphicalCMD {
 
 
 export enum draw_type {
-    line,curve,arc,circle,bezir
+    line,curve,arc,circle,bezir,rect,circleFill
 }

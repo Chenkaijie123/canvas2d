@@ -15,11 +15,11 @@ export default class Canvas {
         this.canvasDom.width = window.innerWidth;
         this.canvasDom.height = window.innerHeight;
         document.body.appendChild(this.canvasDom);
+        this.ticker = GlobalMgr.ticker = new Ticker;
         this.stage = GlobalMgr.stage = new Stage;
         this.stage.init(window.innerWidth, window.innerHeight);
         this.render = new Render;
         this.render.init(this.canvasDom, this.stage);
-        this.ticker = GlobalMgr.ticker = new Ticker;
         this.ticker.addLoop(this.startRender, this);
         this.ticker.start();
         this.mouseEvtMgr = new MouseEventMgr(this);

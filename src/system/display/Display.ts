@@ -1,5 +1,6 @@
 
 import Dispatcher from "../event/Dispatcher";
+import { SIZE_CHANGE } from "../event/EventConst";
 import Render from "../render/Render";
 import Matrix from "./math/Matrix";
 import Point from "./math/Point";
@@ -103,11 +104,13 @@ export default class Display extends Dispatcher {
         return this.visible && this.alpha > 0;
     }
 
+
     updateMatrix(): void {
         if (this.updateValue) {
             this.matrix.setByStyle(this);
             this.updateValue = false;
             this.matrixUpdate = true;
+            this.dispatch(SIZE_CHANGE);
         }
     }
 
