@@ -17,35 +17,37 @@ export default class DisPlayNode extends Display implements ILayout {
     set top(v: number) {
         this.needLayout = true;
         this._top = v;
+        (v != void 0) && (this._centerY = null);
     }
     get bottom() { return this._bottom }
     set bottom(v: number) {
         this.needLayout = true;
         this._bottom = v;
+        (v != void 0) && (this._centerY = null);
     }
     get left() { return this._left }
     set left(v: number) {
         this.needLayout = true;
         this._left = v;
-        this._centerX = null;
+        (v != void 0) && (this._centerX = null);
     }
     get right() { return this._right }
     set right(v: number) {
         this.needLayout = true;
         this._right = v;
-        this._centerX = null;
+        (v != void 0) && (this._centerX = null);
     }
     get centerX() { return this._centerX }
     set centerX(v: number) {
         this.needLayout = true;
         this._centerX = v;
-        this.left = this.right = null;
+        (v != void 0) && (this.left = this.right = null);
     }
     get centerY() { return this._centerY }
     set centerY(v: number) {
         this.needLayout = true;
         this._centerY = v;
-        this.top = this.bottom = null;
+        (v!= void 0) && (this.top = this.bottom = null);
     }
 
     parent: DisPlayNode
@@ -112,7 +114,7 @@ export default class DisPlayNode extends Display implements ILayout {
     /**can override to layout */
     protected onLayout(children: DisPlayNode[]): void {
         if (this.needLayout) {
-            Layout.onLayout(children);
+            Layout.onLayout(this, ...children);
         }
     }
 

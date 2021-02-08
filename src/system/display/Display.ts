@@ -1,6 +1,7 @@
 
 import Dispatcher from "../event/Dispatcher";
 import { SIZE_CHANGE } from "../event/EventConst";
+import GlobalMgr from "../global/GlobalMgr";
 import Render from "../render/Render";
 import Matrix from "./math/Matrix";
 import Point from "./math/Point";
@@ -49,6 +50,7 @@ export default class Display extends Dispatcher {
         this._width = v;
         this.updateValue = true;
         this.autoReSize = false;
+        this.dispatchSizeChangeCallLater();
     }
     get height() { return this._height }
     set height(v: number) {
@@ -56,6 +58,7 @@ export default class Display extends Dispatcher {
         this._height = v;
         this.updateValue = true;
         this.autoReSize = false;
+        this.dispatchSizeChangeCallLater();
     }
     get scaleX() { return this._scaleX }
     set scaleX(v: number) {
@@ -104,13 +107,17 @@ export default class Display extends Dispatcher {
         return this.visible && this.alpha > 0;
     }
 
+    private dispatchSizeChangeCallLater():void{
+        GlobalMgr.ticker.nextTick(this.dispatch,this,[SIZE_CHANGE])
+    }
+
 
     updateMatrix(): void {
         if (this.updateValue) {
             this.matrix.setByStyle(this);
             this.updateValue = false;
             this.matrixUpdate = true;
-            this.dispatch(SIZE_CHANGE);
+            // this.dispatch(SIZE_CHANGE);
         }
     }
 

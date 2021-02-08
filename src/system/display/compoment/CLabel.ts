@@ -1,3 +1,4 @@
+
 import Render from "../../render/Render";
 import DisPlayNode from "../DisPlayNode";
 
@@ -51,7 +52,7 @@ export default class CLabel extends DisPlayNode {
             this.contentWidth = this.width;
             while (1) {
                 if (len >= temp) {
-                    this.wordMessage.push(temp)
+                    this.wordMessage.push(temp);
                     this.offsetXMessage.push(0);
                     temp += step;
                 } else {
@@ -72,7 +73,7 @@ export default class CLabel extends DisPlayNode {
                 this.contentHeight += this.fontSize + this.paddingTop;
             }
             if (this.height <= 0) {
-                this.height = this.contentHeight;
+                this["_height"] = this.contentHeight;
             }
             switch (this.verticalAlign) {
                 case "top":
