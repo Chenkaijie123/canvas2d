@@ -1,4 +1,5 @@
 import Stage from "../display/Stage";
+import Dispatcher from "../event/Dispatcher";
 import MouseEventMgr from "../event/MouseEventMgr";
 import Render from "../render/Render";
 import Ticker from "../ticker/Ticker";
@@ -23,6 +24,7 @@ export default class Canvas {
         this.ticker.addLoop(this.startRender, this);
         this.ticker.start();
         this.mouseEvtMgr = new MouseEventMgr(this);
+        GlobalMgr.dispatcher = new Dispatcher;
     }
 
     private startRender(): void {

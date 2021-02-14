@@ -87,7 +87,7 @@ export default class TreeNode extends Box {
     }
 
     private clickHandle(e: SystemEvent): void {
-        if (!this.childDatas.children) return;
+        if (!this.childDatas.children || !this.childDatas.children.length) return;
         this.isOpen = !this.isOpen;
         if (this.isOpen) {//展开
             this.addChild(this.childrenBox);
@@ -107,11 +107,11 @@ export default class TreeNode extends Box {
                     child.renderHandle = this.renderHandle;
                     child.data = data;
                     child.belong = this;
-                    height += child.itemHeight;
+                    height += child.itemHeight + child.paddingTop;
                     this.childrenBox.addChild(child);
                     this.childList.push(child);
                 }
-                this.heightAche = height + this.itemHeight + this.paddingTop;
+                this.heightAche = height + this.itemHeight;
             }
             this.height = this.heightAche;
         } else {//关闭
@@ -122,7 +122,7 @@ export default class TreeNode extends Box {
         //layout
         this.reLayout((e.currentTarget as DisPlayNode).parent as TreeNode);
 
-        this.ui.selectHandle(this.isOpen, this.childDatas);
+        this.ui.selectHandle(this.isOpen, this.childDatas, this);
     }
 
     private reLayout(parent: TreeNode): void {
@@ -131,7 +131,7 @@ export default class TreeNode extends Box {
             node.y = _y;
             _y += node.height + this.paddingTop;
         }
-        parent.belong.height = _y + this.itemHeight;
+        parent.belong.height = parent.belong.heightAche = _y + this.itemHeight;
         if (parent.belong.belong) {
             this.reLayout(parent.belong);
         }

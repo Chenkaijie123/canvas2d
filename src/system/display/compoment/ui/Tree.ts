@@ -56,8 +56,12 @@ export default class Tree extends Box implements IUI {
     }
 
 
+    //TODO优化
     release(): void {
-
+        for(let i of this.childList){
+            i.removeSelf();
+        }
+        this.childList.length = 0;
     }
 }
 
