@@ -5,9 +5,10 @@ import GlobalMgr from "../global/GlobalMgr";
 import Render from "../render/Render";
 import Matrix from "./math/Matrix";
 import Point from "./math/Point";
+import Stage from "./Stage";
 
 export default class Display extends Dispatcher {
-    
+
     // private mouseEvtCount = 0;
     private _x: number = 0;
     private _y: number = 0;
@@ -20,9 +21,9 @@ export default class Display extends Dispatcher {
     private _rotate: number = 0;
     private _scrollX: number = 0;
     private _scrollY: number = 0;
-    private matrixUpdate:boolean = true;
+    private matrixUpdate: boolean = true;
     _tempPoint: Point = new Point;
-    _inverseMatrix:Matrix = new Matrix
+    _inverseMatrix: Matrix = new Matrix
 
     visible = true;
     alpha: number = 1;
@@ -31,7 +32,7 @@ export default class Display extends Dispatcher {
     updateValue: boolean = true;
     autoReSize: boolean = true;
     matrix: Matrix = new Matrix;
-    ignoreMouseEnvent:boolean = true;//设为true可大幅度提升鼠标事件性能，将忽略该节点下所有的显示元素检查
+    ignoreMouseEnvent: boolean = true;//设为true可大幅度提升鼠标事件性能，将忽略该节点下所有的显示元素检查
     get x() { return this._x }
     set x(v: number) {
         if (this._x == v) return;
@@ -107,8 +108,12 @@ export default class Display extends Dispatcher {
         return this.visible && this.alpha > 0;
     }
 
-    private dispatchSizeChangeCallLater():void{
-        GlobalMgr.ticker.nextTick(this.dispatch,this,[SIZE_CHANGE])
+    get stage(): Stage {
+        return GlobalMgr.stage;
+    }
+
+    private dispatchSizeChangeCallLater(): void {
+        GlobalMgr.ticker.nextTick(this.dispatch, this, [SIZE_CHANGE])
     }
 
 
@@ -121,8 +126,8 @@ export default class Display extends Dispatcher {
         }
     }
 
-    updateIeverseMatrix():void{
-        if(this.matrixUpdate){
+    updateIeverseMatrix(): void {
+        if (this.matrixUpdate) {
             this.matrixUpdate = false;
             this._inverseMatrix.setTo(this.matrix);
             this._inverseMatrix.invertMartix();

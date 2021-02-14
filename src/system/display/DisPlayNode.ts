@@ -1,4 +1,4 @@
-import { TOUCH_BEGIN, TOUCH_CANCEL, TOUCH_END, TOUCH_MOVE, TOUCH_TAP } from "../event/EventConst";
+import { SIZE_CHANGE, TOUCH_BEGIN, TOUCH_CANCEL, TOUCH_END, TOUCH_MOVE, TOUCH_TAP } from "../event/EventConst";
 import GlobalMgr from "../global/GlobalMgr";
 import ILayout from "./compoment/ui/ILayout";
 import Layout from "./compoment/ui/Layout";
@@ -47,7 +47,7 @@ export default class DisPlayNode extends Display implements ILayout {
     set centerY(v: number) {
         this.needLayout = true;
         this._centerY = v;
-        (v!= void 0) && (this.top = this.bottom = null);
+        (v != void 0) && (this.top = this.bottom = null);
     }
 
     parent: DisPlayNode
@@ -96,6 +96,14 @@ export default class DisPlayNode extends Display implements ILayout {
         return state;
     }
 
+    childrenForEach(v: (node: DisPlayNode, idx: number) => boolean | undefined): void {
+        for (let i = 0, len = this.children.length; i < len; i++) {
+            if (v(this.children[i], i)) {
+                break;
+            }
+        }
+    }
+
 
 
     /**
@@ -109,6 +117,7 @@ export default class DisPlayNode extends Display implements ILayout {
     private measure(): void {
         this.onMeasure();
         this.onLayout(this.children);
+        this.dispatch(SIZE_CHANGE);
     }
 
     /**can override to layout */
