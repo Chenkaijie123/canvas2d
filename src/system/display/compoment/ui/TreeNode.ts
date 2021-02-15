@@ -62,9 +62,9 @@ export default class TreeNode extends Box {
                 this.childrenBox.addChild(child);
                 this.childList.push(child);
             }
-            this.height = this.heightAche = height + this.itemHeight + this.paddingTop;
+            this.setHeight(this.heightAche = height + this.itemHeight + this.paddingTop);
         } else {
-            this.height = this.itemHeight;
+            this.setHeight(this.itemHeight);
         }
     }
 

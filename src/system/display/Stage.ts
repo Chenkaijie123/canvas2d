@@ -1,6 +1,6 @@
-import DisPlayNode from "./DisPlayNode";
+import Box from "./compoment/ui/Box";
 
-export default class Stage extends DisPlayNode {
+export default class Stage extends Box{
     constructor() {
         super();
     }

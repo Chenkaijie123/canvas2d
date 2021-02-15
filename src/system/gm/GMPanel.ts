@@ -16,7 +16,7 @@ export default class GMPanel extends Box {
     }
 
     init(): void {
-        this.x = 300;
+        this.right = 0;
         let tree = this.displayTree = new Tree;
         tree.itemRender = GMTreeNode;
         tree.renderHandle = (n: GMTreeNode, data: any) => {
@@ -36,7 +36,7 @@ export default class GMPanel extends Box {
 
     refleshTree(): void {
         let data = GlobalMgr.stage;
-        this.displayTree.data = data.children
+        this.displayTree.data = data.children;
 
     }
 
@@ -49,7 +49,6 @@ export default class GMPanel extends Box {
         }
         let idx = 0;
         for (let k in data) {
-            // if (k[0] == "_" ) continue;
             if (typeof data[k] != "object" && typeof data[k] != "function") {
                 lab = this.pool.pop() || new CLabel;
                 lab.x = 200;

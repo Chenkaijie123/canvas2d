@@ -23,7 +23,7 @@ export default class Display extends Dispatcher {
     private _scrollY: number = 0;
     private matrixUpdate: boolean = true;
     _tempPoint: Point = new Point;
-    _inverseMatrix: Matrix = new Matrix
+    _inverseMatrix: Matrix = new Matrix;
 
     visible = true;
     alpha: number = 1;
@@ -114,6 +114,23 @@ export default class Display extends Dispatcher {
 
     private dispatchSizeChangeCallLater(): void {
         GlobalMgr.ticker.nextTick(this.dispatch, this, [SIZE_CHANGE])
+    }
+
+
+    /**@private */
+    setWidth(v: number) {
+        if (this._width == v) return;
+        this._width = v;
+        this.updateValue = true;
+        this.dispatchSizeChangeCallLater();
+    }
+
+    /**@private */
+    setHeight(v: number) {
+        if (this._height == v) return;
+        this._height = v;
+        this.updateValue = true;
+        this.dispatchSizeChangeCallLater();
     }
 
 

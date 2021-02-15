@@ -16,7 +16,7 @@ export default class Layout {
                     if (needChangeSizeFlag) {
                         node.width = node.parent.width - node.width >> 1;
                     } else {
-                        node.x = node.parent.width - node.width - node.x;
+                        node.x = node.parent.width - node.width - node.right;
                     }
                 }
     
