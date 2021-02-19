@@ -68,6 +68,7 @@ export default class TreeNode extends Box {
             // this.setHeight(this.itemHeight);
             this.height = this.itemHeight;
         }
+        this.width = this.itemWidth;
     }
 
     release(): void {

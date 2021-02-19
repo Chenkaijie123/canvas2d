@@ -11,7 +11,7 @@ export default class Test{
         new ByteTest()
         new GraphicalTest()
         new GraphicisTest()
-        new LayoutTest(true)
-        new TreeTest(true)
+        new LayoutTest()
+        new TreeTest()
     }
 }

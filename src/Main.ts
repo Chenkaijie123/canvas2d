@@ -1,4 +1,5 @@
 
+import EditorPanel from "./editor/EditorPanel";
 import Canvas from "./system/global/Canvas";
 import GlobalMgr from "./system/global/GlobalMgr";
 import GMPanel from "./system/gm/GMPanel";
@@ -23,9 +24,9 @@ class Main{
     }
 
     private test():void{
-
+        GlobalMgr.stage.addChild(new EditorPanel);
         new Test();
-        GMPanel.show();
+        GMPanel//.show();
     }
 }
 new Main

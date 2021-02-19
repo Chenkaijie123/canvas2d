@@ -57,6 +57,7 @@ export default class GMPanel extends Box {
             data.splice(idx,1);
         }
         this.displayTree.data = data;
+        this.refleshAttr(v);
     }
 
     private refleshAttr(data: any): void {

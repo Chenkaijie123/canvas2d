@@ -13,10 +13,10 @@ export default class MouseEventMgr {
     //按下检查到的显示对象
     private downList: DisPlayNode[];
     //单次处理的鼠标移动事件数量
-    private readonly moveEvtCount:number = 2;
+    private readonly moveEvtCount: number = 2;
     //保存上一次鼠标移动的点
-    private movePoint:Point = new Point;
-    private moveEvt:MouseEvent[] = []
+    private movePoint: Point = new Point;
+    private moveEvt: MouseEvent[] = []
     constructor(canvas: Canvas) {
         this.canvas = canvas;
         this.init();
@@ -27,20 +27,20 @@ export default class MouseEventMgr {
         this.canvas.canvasDom.addEventListener("mousemove", this.addToQueue);
         this.canvas.canvasDom.addEventListener("mousedown", this.onDown);
         this.canvas.canvasDom.addEventListener("mouseup", this.onUp);
-        GlobalMgr.ticker.addLoop(this.dealMove,this);
+        GlobalMgr.ticker.addLoop(this.dealMove, this);
     }
 
-    private addToQueue = (e:MouseEvent) => {
-        if(Math.abs(this.movePoint.x - e.pageX) < 3 &&Math.abs(this.movePoint.y - e.pageY) < 3) return;
+    private addToQueue = (e: MouseEvent) => {
+        if (Math.abs(this.movePoint.x - e.pageX) < 3 && Math.abs(this.movePoint.y - e.pageY) < 3) return;
         this.movePoint.x = e.pageX;
         this.movePoint.y = e.pageY;
         this.moveEvt.push(e)
     }
 
-    private dealMove():void{
-        for(let i = 0;i< this.moveEvtCount;i++){
+    private dealMove(): void {
+        for (let i = 0; i < this.moveEvtCount; i++) {
             let e = this.moveEvt.shift();
-            if(!e) return;
+            if (!e) return;
             this.onMove(e)
         }
     }
@@ -115,19 +115,19 @@ export default class MouseEventMgr {
         evt = SysTemTouchEvent.create(e);
         evt.type = "touchTap";
         //debug panel
-        if(GlobalMgr.isDebugger && list[0]){
-            let temp:DisPlayNode = list[0];
+        if (GlobalMgr.isDebugger && list[0]) {
+            let temp: DisPlayNode = list[0];
             let isDebugger = false;
-            let gmpanel :GMPanel= GMPanel["_ins"];
-            while(temp){
-                if(temp == gmpanel){
+            let gmpanel: GMPanel = GMPanel["_ins"];
+            while (temp) {
+                if (temp == gmpanel) {
                     isDebugger = true;
                     break;
                 }
                 temp = temp.parent;
 
             }
-            !isDebugger && GlobalMgr.dispatcher.dispatch(DEBUGGER_SELECT_DISPLAY,list[0]);
+            !isDebugger && GlobalMgr.dispatcher.dispatch(DEBUGGER_SELECT_DISPLAY, list[0]);
         }
         for (let node of list) {
             if (this.downList.indexOf(node) >= 0) {

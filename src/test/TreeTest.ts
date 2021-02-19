@@ -18,14 +18,14 @@ export default class TreeTest extends TestBase {
                 lab: "file2",
                 open: true,
                 children: [
-                    // {
-                    //     lab: "file5",
-                    //     open: true,
-                    //     children: [
-                    //         { lab: "file6" },
-                    //         { lab: "file7" },
-                    //     ]
-                    // },
+                    {
+                        lab: "file5",
+                        open: true,
+                        children: [
+                            { lab: "file6" },
+                            { lab: "file7" },
+                        ]
+                    },
                     { lab: "file8" },
                 ]
             },

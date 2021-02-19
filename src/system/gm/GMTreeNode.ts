@@ -14,6 +14,7 @@ export default class GMTreeNode extends Box implements ITreeNode {
     }
     selectHandle(open: boolean, data: any, treeNode: TreeNode): void {
         this.lab.text = `${data.children && data.children.length ? open ? "-" : "+" : ""}${data.constructor.name}`;
+        this.lab.fontColor = "0xc5b596"
         GlobalMgr.dispatcher.dispatch(DISPLAY_TREE_SELECT,data);
     }
 
