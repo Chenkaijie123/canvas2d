@@ -3,6 +3,7 @@ import Dispatcher from "../event/Dispatcher";
 import { SIZE_CHANGE } from "../event/EventConst";
 import GlobalMgr from "../global/GlobalMgr";
 import Render from "../render/Render";
+import DisPlayNode from "./DisPlayNode";
 import Matrix from "./math/Matrix";
 import Point from "./math/Point";
 import Stage from "./Stage";
@@ -164,13 +165,32 @@ export default class Display extends Dispatcher {
         return this.width >= p.x && this.height >= p.y && p.x >= 0 && p.y >= 0;
     }
 
-
-
-
     clear(): void {
         super.clear();
     }
 
+    localToGlobal(temp: Point): Point {
+        let display: DisPlayNode = this as unknown as DisPlayNode;
+        while (Display) {
+            display.updateIeverseMatrix();
+            display._inverseMatrix.transFormPoint(temp);
+            display = display.parent;
+        }
+        return temp;
+    }
+
+    globalToLocal(temp: Point): Point {
+        let arr: Matrix[] = [];
+        let display: DisPlayNode = this as unknown as DisPlayNode;
+        while (display) {
+            arr.push(display.matrix);
+            display = display.parent;
+        }
+        arr.reverse().forEach(v => {
+            v.transFormPoint(temp);
+        })
+        return temp;
+    }
 
 
 }

@@ -8,4 +8,5 @@ export default class GlobalMgr{
     static ticker:Ticker;
     static canvas:Canvas;
     static dispatcher:Dispatcher
+    static isDebugger:boolean = false;
 }

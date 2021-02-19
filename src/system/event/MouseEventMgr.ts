@@ -3,7 +3,8 @@ import DisPlayNode from "../display/DisPlayNode";
 import Point from "../display/math/Point";
 import Canvas from "../global/Canvas";
 import GlobalMgr from "../global/GlobalMgr";
-import { TOUCH_BEGIN, TOUCH_CANCEL, TOUCH_DOUBLE, TOUCH_END, TOUCH_MOVE, TOUCH_TAP } from "./EventConst";
+import GMPanel from "../gm/GMPanel";
+import { DEBUGGER_SELECT_DISPLAY, TOUCH_BEGIN, TOUCH_CANCEL, TOUCH_DOUBLE, TOUCH_END, TOUCH_MOVE, TOUCH_TAP } from "./EventConst";
 import SysTemTouchEvent from "./eventStruct/SysTemTouchEvent";
 
 
@@ -113,6 +114,21 @@ export default class MouseEventMgr {
 
         evt = SysTemTouchEvent.create(e);
         evt.type = "touchTap";
+        //debug panel
+        if(GlobalMgr.isDebugger && list[0]){
+            let temp:DisPlayNode = list[0];
+            let isDebugger = false;
+            let gmpanel :GMPanel= GMPanel["_ins"];
+            while(temp){
+                if(temp == gmpanel){
+                    isDebugger = true;
+                    break;
+                }
+                temp = temp.parent;
+
+            }
+            !isDebugger && GlobalMgr.dispatcher.dispatch(DEBUGGER_SELECT_DISPLAY,list[0]);
+        }
         for (let node of list) {
             if (this.downList.indexOf(node) >= 0) {
                 evt.currentTarget = node;

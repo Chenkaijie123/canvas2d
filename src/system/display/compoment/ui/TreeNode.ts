@@ -45,7 +45,6 @@ export default class TreeNode extends Box {
             for (let data of v.children) {
                 child = new TreeNode;
                 child.y = _y;
-                _y += this.paddingTop + this.itemHeight;
                 child.itemWidth = this.itemWidth;
                 child.itemHeight = this.itemHeight;
                 child.paddingTop = this.paddingTop;
@@ -58,13 +57,16 @@ export default class TreeNode extends Box {
                 child.renderHandle(child.ui, data);
                 child.belong = this;
                 child.data = data;
-                height += child.height;
+                height += child.height + this.paddingTop;
+                _y += this.paddingTop + child.height;
                 this.childrenBox.addChild(child);
                 this.childList.push(child);
             }
-            this.setHeight(this.heightAche = height + this.itemHeight + this.paddingTop);
+            // this.setHeight(this.heightAche = height + this.itemHeight);
+            this.height = this.heightAche = height + this.itemHeight;
         } else {
-            this.setHeight(this.itemHeight);
+            // this.setHeight(this.itemHeight);
+            this.height = this.itemHeight;
         }
     }
 
@@ -98,7 +100,6 @@ export default class TreeNode extends Box {
                 for (let data of this.childDatas.children) {
                     child = new TreeNode;
                     child.y = tempY;
-                    tempY += this.paddingTop + this.itemHeight;
                     child.itemWidth = this.itemWidth;
                     child.itemHeight = this.itemHeight;
                     child.paddingTop = this.paddingTop;
@@ -106,12 +107,13 @@ export default class TreeNode extends Box {
                     child.itemRender = this.itemRender;
                     child.renderHandle = this.renderHandle;
                     child.data = data;
+                    tempY += child.paddingTop + child.height;
                     child.belong = this;
-                    height += child.itemHeight + child.paddingTop;
+                    height += child.height + child.paddingTop;
                     this.childrenBox.addChild(child);
                     this.childList.push(child);
                 }
-                this.heightAche = height + this.itemHeight;
+                this.heightAche = height + this.itemHeight - child.paddingTop;
             }
             this.height = this.heightAche;
         } else {//关闭

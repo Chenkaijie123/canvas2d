@@ -10,20 +10,22 @@ export default class TreeTest extends TestBase {
         let tree = new Tree;
         tree.itemRender = TreeN;
         tree.renderHandle = (n: TreeN, data) => {
-            n.lab.text = `${data.open?"-":data.children?"+":""}${data.lab}`
+            n.lab.text = `${data.open ? "-" : data.children ? "+" : ""}${data.lab}`
         }
         tree.data = [
             { lab: "file1" },
             {
                 lab: "file2",
+                open: true,
                 children: [
-                    {
-                        lab: "file5",
-                        children: [
-                            { lab: "file6" },
-                            { lab: "file7" },
-                        ]
-                    },
+                    // {
+                    //     lab: "file5",
+                    //     open: true,
+                    //     children: [
+                    //         { lab: "file6" },
+                    //         { lab: "file7" },
+                    //     ]
+                    // },
                     { lab: "file8" },
                 ]
             },
@@ -42,7 +44,7 @@ class TreeN extends Box implements ITreeNode {
         this.addChild(this.lab)
     }
     selectHandle(open: boolean, data: any): void {
-        this.lab.text = `${data.children?open?"-":"+":""}${data.lab}`
+        this.lab.text = `${data.children ? open ? "-" : "+" : ""}${data.lab}`
     }
 
 

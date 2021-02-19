@@ -25,7 +25,7 @@ class Main{
     private test():void{
 
         new Test();
-        GlobalMgr.stage.addChild(new GMPanel());
+        GMPanel.show();
     }
 }
 new Main

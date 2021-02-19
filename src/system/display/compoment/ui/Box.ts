@@ -1,25 +1,20 @@
 import { SIZE_CHANGE } from "../../../event/EventConst";
 import GlobalMgr from "../../../global/GlobalMgr";
 import DisPlayNode from "../../DisPlayNode";
-import Stage from "../../Stage";
 import Layout from "./Layout";
 
 export default class Box extends DisPlayNode {
     private sizeChange(): void {
-        if(this instanceof Stage){
-            Layout.onLayout(...this.children);
-            return;
-        }
         if (this.autoReSize) {
             let width = Math.max(...this.children.map(v => v.x + v.width));
             let height = Math.max(...this.children.map(v => v.y + v.height));
             if (width != this.width || height != this.height) {
                 this.setWidth(width);
                 this.setHeight(height);
-                Layout.onLayout(...this.children);
                 this.dispatch(SIZE_CHANGE);
             }
         }
+        Layout.onLayout(...this.children);
     }
 
     private sizeChangeCallLater(): void {

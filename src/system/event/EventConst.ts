@@ -17,3 +17,4 @@ export const SIZE_CHANGE:symbol = Symbol();
 
 //system
 export const DISPLAY_TREE_SELECT:symbol = Symbol();
+export const DEBUGGER_SELECT_DISPLAY:symbol = Symbol();

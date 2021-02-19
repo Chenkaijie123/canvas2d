@@ -38,7 +38,7 @@ export default class Tree extends Box implements IUI {
                 node.renderHandle = this._renderHandle;
                 node.y = _y;
                 node.data = data;
-                _y += node.height + this.paddingTop;
+                _y += node.height + node.paddingTop;
                 this.addChild(node);
                 this.childList.push(node);
             }
