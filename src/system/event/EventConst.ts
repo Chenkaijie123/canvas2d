@@ -10,11 +10,14 @@ export const TOUCH_END: symbol = Symbol();
 export const TOUCH_MOVE: symbol = Symbol();
 export const TOUCH_CANCEL: symbol = Symbol();
 export const TOUCH_TAP: symbol = Symbol();
-export const TOUCH_DOUBLE:symbol = Symbol();
+export const TOUCH_DOUBLE: symbol = Symbol();
 
 //--------ui--------------
-export const SIZE_CHANGE:symbol = Symbol();
+export const SIZE_CHANGE: symbol = Symbol();
 
 //system
-export const DISPLAY_TREE_SELECT:symbol = Symbol();
-export const DEBUGGER_SELECT_DISPLAY:symbol = Symbol();
+export const DISPLAY_TREE_SELECT: symbol = Symbol();
+export const DEBUGGER_SELECT_DISPLAY: symbol = Symbol();
+
+//editor
+export const SELECT_ELEMENT: symbol = Symbol();
