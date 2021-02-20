@@ -2,6 +2,7 @@
 import CImage from "../system/display/compoment/CImage";
 import CLabel from "../system/display/compoment/CLabel";
 import Box from "../system/display/compoment/ui/Box";
+import TextInput from "../system/display/compoment/ui/TextInput";
 import DisPlayNode from "../system/display/DisPlayNode";
 import Point from "../system/display/math/Point";
 import { SELECT_ELEMENT, TOUCH_BEGIN, TOUCH_END, TOUCH_MOVE } from "../system/event/EventConst";
@@ -42,6 +43,7 @@ export default class EditorPanel extends Box {
     }
 
     private proxyHandle(data: { element: DisPlayNode, type: string }): void {
+        let display: DisPlayNode;
         switch (data.type) {
             case "image":
                 let img = new CImage;
@@ -51,23 +53,23 @@ export default class EditorPanel extends Box {
                 this.operatorBox.globalToLocal(p);
                 img.src = "./resource/90.jpg";
                 img.setSprites(10, 10, 70, 70);
-                img.x = p.x;
-                img.y = p.y;
-                this.operatorBox.addChild(img);
-                this.selectElement = img;
-                img.on(TOUCH_BEGIN, () => {
-                    this.selectElement = img;
-                }, this)
+                display = img;
                 break;
             case "label":
                 let label = new CLabel;
                 label.text = "label";
-                this.operatorBox.addChild(label);
-                label.on(TOUCH_BEGIN, () => {
-                    this.selectElement = label;
-                }, this);
-                this.selectElement = label;
+                display = label;
                 break;
+            case "textInput":
+                let ipt = new TextInput;
+                display = ipt;
+                break;
+
         }
+        this.operatorBox.addChild(display);
+        this.selectElement = display;
+        display.on(TOUCH_BEGIN, () => {
+            this.selectElement = display;
+        }, this)
     }
 }

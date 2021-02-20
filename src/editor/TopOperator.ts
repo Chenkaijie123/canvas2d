@@ -6,7 +6,8 @@ import SystemEvent from "../system/event/eventStruct/SystemEvent";
 
 export default class TopOperator extends Box {
     imageBtn: CImage;
-    label:CLabel
+    label: CLabel;
+    textinput: CLabel = new CLabel;
     constructor() {
         super();
         this.init();
@@ -15,30 +16,37 @@ export default class TopOperator extends Box {
     init(): void {
         this.imageBtn = new CImage;
         this.addChild(this.imageBtn);
-        this.imageBtn.setSprites(10,10,70,70);
+        this.imageBtn.setSprites(10, 10, 70, 70);
         this.imageBtn.src = "./resource/90.jpg";
         this.addChild(this.label = new CLabel);
         this.label.y = 100;
         this.label.text = "label";
+        this.addChild(this.textinput);
+        this.textinput.y = 200;
+        this.textinput.text = "textInput";
     }
 
     private addEvt(): void {
         this.imageBtn.on(TOUCH_BEGIN, this.touchBeginHandle, this);
-        this.label.on(TOUCH_BEGIN,this.touchBeginHandle,this);
+        this.label.on(TOUCH_BEGIN, this.touchBeginHandle, this);
+        this.textinput.on(TOUCH_BEGIN, this.touchBeginHandle, this);
     }
 
     private touchBeginHandle(e: SystemEvent): void {
-        let type:string;
-        switch(e.currentTarget){
+        let type: string;
+        switch (e.currentTarget) {
             case this.imageBtn:
                 type = "image";
                 break;
             case this.label:
                 type = "label";
                 break;
+            case this.textinput:
+                type = "textInput";
+                break;
         }
-        this.dispatch(SELECT_ELEMENT,{
-            element:e.currentTarget,
+        this.dispatch(SELECT_ELEMENT, {
+            element: e.currentTarget,
             type
         })
     }

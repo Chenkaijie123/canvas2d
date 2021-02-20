@@ -14,6 +14,6 @@ export default class Test {
         new GraphicisTest()
         new LayoutTest()
         new TreeTest()
-        new TextInputTest(true)
+        new TextInputTest()
     }
 }
