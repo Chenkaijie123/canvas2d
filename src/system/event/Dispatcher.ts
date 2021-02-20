@@ -1,6 +1,7 @@
 import Handle from "./Handle";
-
+let id = 1;
 export default class Dispatcher {
+    _hashCode: number = id++;
     private map: Map<string | symbol, Handle[]> = new Map;
     private onceMap: Map<string | symbol, [Function, any][]> = new Map;
     on(type: string | symbol, callback: Function, caller: any, args?: any[]): boolean {
@@ -33,7 +34,10 @@ export default class Dispatcher {
         }
         if (needAdd) {
             const fn = () => {
-                callback.call(caller, args);
+                if (args)
+                    callback.call(caller, ...args);
+                else
+                    callback.call(caller);
                 this.off(type, fn, this);
             }
             this.on(type, fn, this);

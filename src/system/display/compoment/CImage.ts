@@ -1,4 +1,5 @@
 
+import GlobalMgr from "../../global/GlobalMgr";
 import Render from "../../render/Render";
 import Resource from "../../resource/Resource";
 import Texture from "../../resource/Texture";
@@ -13,9 +14,10 @@ export default class CImage extends DisPlayNode {
     set src(v: string) {
         if (this._src === v) return;
         this.clear();
-        if(v){
+        if (v) {
             this._src = v;
-            Resource.ins.loadImage(v, this.loadComplete, this);
+            // Resource.ins.loadImage(v, this.loadComplete, this);
+            this.delayCall();
         }
 
     }
@@ -29,12 +31,17 @@ export default class CImage extends DisPlayNode {
         this.sprites.x = x;
         this.sprites.y = y;
         this.sprites.width = width;
-        this.sprites.height = height
+        this.sprites.height = height;
+        this._src && this.delayCall();
     }
 
     private loadComplete(): void {
         this.texture.init(this.src, this.sprites.x, this.sprites.y, this.sprites.width, this.sprites.height);
         this._measureAndLayout();
+    }
+
+    private delayCall(): void {
+        GlobalMgr.ticker.nextTick(Resource.ins.loadImage, Resource.ins, [this._src, this.loadComplete, this])
     }
 
     protected onMeasure(): void {
@@ -64,7 +71,7 @@ export default class CImage extends DisPlayNode {
         }
     }
 
-    distory():void{
+    distory(): void {
         this.clear();
     }
 }

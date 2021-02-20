@@ -171,7 +171,7 @@ export default class Display extends Dispatcher {
 
     localToGlobal(temp: Point): Point {
         let display: DisPlayNode = this as unknown as DisPlayNode;
-        while (Display) {
+        while (display) {
             display.updateIeverseMatrix();
             display._inverseMatrix.transFormPoint(temp);
             display = display.parent;
