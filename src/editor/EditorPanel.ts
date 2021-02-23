@@ -8,11 +8,13 @@ import Point from "../system/display/math/Point";
 import { SELECT_ELEMENT, TOUCH_BEGIN, TOUCH_END, TOUCH_MOVE } from "../system/event/EventConst";
 import SysTemTouchEvent from "../system/event/eventStruct/SysTemTouchEvent";
 import GlobalMgr from "../system/global/GlobalMgr";
+import EditorTree from "./EditorTree";
 import TopOperator from "./TopOperator";
 
 export default class EditorPanel extends Box {
     topOperator: TopOperator;
     operatorBox: Box;
+    tree:EditorTree;
     private selectElement: DisPlayNode;
     constructor() {
         super();
@@ -28,6 +30,8 @@ export default class EditorPanel extends Box {
         this.addChild(this.operatorBox = new Box);
         this.operatorBox.width = GlobalMgr.stage.width;
         this.operatorBox.height = GlobalMgr.stage.height;
+        this.tree = new EditorTree;
+        this.addChild(this.tree);
         this.stage.on(TOUCH_MOVE, this.onMove, this);
         this.stage.on(TOUCH_END, () => {
             this.selectElement = null;
