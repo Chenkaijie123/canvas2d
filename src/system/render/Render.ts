@@ -84,10 +84,10 @@ export default class Render {
                 this.ctx.clip();
             }
             node.render(this);
-            if (node.scrollX || node.scrollY) {
-                this.ctx.transform(1, 0, 0, 1, node.scrollX, node.scrollY);
-            }
             if (node.children.length) {
+                if (node.scrollX || node.scrollY) {
+                    this.ctx.transform(1, 0, 0, 1, node.scrollX, node.scrollY);
+                }
                 this.renderList(node.children);
             }
             this.ctx.restore();
