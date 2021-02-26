@@ -104,11 +104,11 @@ export default class Matrix {
     }
 
     public setByStyle(style: Display): void {
-        let { rotate, scaleX, scaleY, anchorX, anchorY, x, y, scrollX, scrollY } = style;
+        let { rotate, scaleX, scaleY, anchorX, anchorY, x, y/*, scrollX, scrollY */} = style;
         let rotateC = cos(rotate);
         let rotateS = sin(rotate);
-        let tx = (x + scrollX) * scaleX;
-        let ty = (y + scrollY) * scaleY;
+        let tx = (x /*+ scrollX*/) * scaleX;
+        let ty = (y /*+ scrollY*/) * scaleY;
         let a = rotateC * scaleX;
         let b = rotateS * scaleX;
         let c = -rotateS * scaleY;

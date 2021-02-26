@@ -78,7 +78,15 @@ export default class Render {
             this.ctx.save();
             node.updateMatrix();
             this.ctx.transform(...node.matrix.buffer);
+            if (node.canScroll) {
+                this.ctx.rect(0, 0, node.width, node.height);
+                this.ctx.stroke();
+                this.ctx.clip();
+            }
             node.render(this);
+            if (node.scrollX || node.scrollY) {
+                this.ctx.transform(1, 0, 0, 1, node.scrollX, node.scrollY);
+            }
             if (node.children.length) {
                 this.renderList(node.children);
             }

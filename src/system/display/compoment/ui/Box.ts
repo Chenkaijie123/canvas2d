@@ -5,15 +5,17 @@ import Layout from "./Layout";
 
 export default class Box extends DisPlayNode {
     private sizeChange(): void {
+        let width = Math.max(...this.children.map(v => v.x + v.width));
+        let height = Math.max(...this.children.map(v => v.y + v.height));
         if (this.autoReSize) {
-            let width = Math.max(...this.children.map(v => v.x + v.width));
-            let height = Math.max(...this.children.map(v => v.y + v.height));
             if (width != this.width || height != this.height) {
                 this.setWidth(width);
                 this.setHeight(height);
                 this.dispatch(SIZE_CHANGE);
             }
         }
+        this.contentWidth = width;
+        this.contentHeight = height;
         Layout.onLayout(...this.children);
     }
 

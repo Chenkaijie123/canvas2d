@@ -113,9 +113,9 @@ export default class CLabel extends DisPlayNode {
                 end = this.wordMessage[i];
                 str = this._text.substring(start, end);
                 _x = this.offsetXMessage[i];
-                render.ctx.fillText(str, _x, _y);
+                render.ctx.fillText(str, _x + this.scrollX, _y + this.scrollY);
                 if (this.border) {
-                    render.ctx.strokeText(str, _x, _y);
+                    render.ctx.strokeText(str, _x + this.scrollX, _y + this.scrollY);
                 }
                 _y += this.fontSize + this.paddingTop;
                 start = end;

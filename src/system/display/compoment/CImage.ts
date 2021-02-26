@@ -63,10 +63,10 @@ export default class CImage extends DisPlayNode {
                     this.texture.rect.y,
                     this.texture.rect.width,
                     this.texture.height,
-                    0, 0, this.width, this.height
+                    this.scrollX, this.scrollY, this.width, this.height
                 );
             } else {
-                render.ctx.drawImage(this.texture.texture, 0, 0, this.width, this.height);
+                render.ctx.drawImage(this.texture.texture, this.scrollX, this.scrollY, this.width, this.height);
             }
         }
     }

@@ -23,6 +23,8 @@ export default class Display extends Dispatcher {
     private _scrollX: number = 0;
     private _scrollY: number = 0;
     private matrixUpdate: boolean = true;
+    private _canScroll: boolean = false;
+
     _tempPoint: Point = new Point;
     _inverseMatrix: Matrix = new Matrix;
 
@@ -105,6 +107,11 @@ export default class Display extends Dispatcher {
         this.updateValue = true;
     }
 
+    get canScroll(): boolean { return this._canScroll }
+    set canScroll(v: boolean) {
+        this._canScroll = v;
+    }
+
     get needRender() {
         return this.visible && this.alpha > 0;
     }
@@ -153,7 +160,7 @@ export default class Display extends Dispatcher {
     }
 
     /**@private */
-    updateContent(render: Render):void{
+    updateContent(render: Render): void {
 
     }
 
@@ -167,7 +174,7 @@ export default class Display extends Dispatcher {
     }
 
     _contain(p: { x: number, y: number }): boolean {
-        return this.width >= p.x && this.height >= p.y && p.x >= 0 && p.y >= 0;
+        return this.width >= p.x && this.height >= p.y && p.x >= this.scrollX && p.y >= this.scrollY;
     }
 
     clear(): void {
