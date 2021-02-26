@@ -1,5 +1,6 @@
 import Box from "../system/display/compoment/ui/Box";
 import Tree from "../system/display/compoment/ui/Tree";
+import DisPlayNode from "../system/display/DisPlayNode";
 import EditorTreeNode from "./EditorTreeNode";
 
 export default class EditorTree extends Box {
@@ -13,7 +14,12 @@ export default class EditorTree extends Box {
         this.right = 0;
     }
 
-    renderNode(node: EditorTreeNode, data: any): void {
+    renderNode(node: EditorTreeNode, data: DisPlayNode): void {
+        node.narrow.text = data.children.length ? "+" : "";
+        node.label.text = data.constructor.name;
+    }
 
+    refleshTree(data): void {
+        this.tree.data = data;
     }
 }

@@ -15,10 +15,13 @@ export default class TextInput extends Box {
     }
 
     onFocus(): void {
-        inputHtml.addEventListener("input", this.onInput);
-        inputHtml.addEventListener("blur", this.onblur);
         document.body.appendChild(inputHtml);
-        let p = new Point(this.x,this.y);
+        inputHtml.oninput = this.onInput;
+        inputHtml.onblur = this.onblur;
+        //这里怎么会有bug？
+        // inputHtml.addEventListener("input", this.onInput);
+        // inputHtml.addEventListener("blur", this.onblur);
+        let p = new Point(this.x, this.y);
         this.localToGlobal(p);
         inputHtml.style.left = p.x + "px";
         inputHtml.style.top = p.y + "px";
@@ -26,9 +29,13 @@ export default class TextInput extends Box {
     }
 
     onblur(): void {
-        inputHtml.removeEventListener("input", this.onInput);
+        inputHtml.oninput = null;
+        inputHtml.onblur = null;
+        // inputHtml.removeEventListener("input", this.onInput);
+        // inputHtml.removeEventListener("blur", this.onblur);
         inputHtml.parentElement && inputHtml.parentElement.removeChild(inputHtml);
     }
+
 
     onInput = () => {
         this.label.text = inputHtml.value + "";

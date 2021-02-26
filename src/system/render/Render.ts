@@ -74,6 +74,7 @@ export default class Render {
     renderList(list: DisPlayNode[]): void {
         for (let node of list) {
             if (!node.needRender) continue;
+            node.updateContent(this);
             this.ctx.save();
             node.updateMatrix();
             this.ctx.transform(...node.matrix.buffer);
@@ -192,7 +193,7 @@ export default class Render {
                 this.ctx.fillRect(buffer.readInt16(), buffer.readInt16(), buffer.readInt16(), buffer.readInt16());
                 break;
             case draw_type.circleFill:
-                this.fontColor =  "#" + color;
+                this.fontColor = "#" + color;
                 this.updateFontContent();
                 this.ctx.beginPath();
                 this.ctx.arc(

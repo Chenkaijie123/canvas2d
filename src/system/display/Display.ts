@@ -152,6 +152,11 @@ export default class Display extends Dispatcher {
         }
     }
 
+    /**@private */
+    updateContent(render: Render):void{
+
+    }
+
     /**@override */
     render(render: Render) {
 

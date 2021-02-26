@@ -89,14 +89,17 @@ export default class CLabel extends DisPlayNode {
         }
     }
 
-
-
-    render(render: Render): void {
-        if (this._text) {
+    updateContent(render: Render):void{
+        if(this._text){
             render.fontSize = this.fontSize;
             render.fontColor = this.fontColor;
             render.fontFamily = this.fontFamily;
             render.updateFontContent();
+        }
+    }
+
+    render(render: Render): void {
+        if (this._text) {
             if (this.border) {
                 render.strokeColor = this.strokeColor;
                 render.updateStokeContent();

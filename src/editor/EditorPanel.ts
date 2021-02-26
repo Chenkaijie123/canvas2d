@@ -14,7 +14,7 @@ import TopOperator from "./TopOperator";
 export default class EditorPanel extends Box {
     topOperator: TopOperator;
     operatorBox: Box;
-    tree:EditorTree;
+    tree: EditorTree;
     private selectElement: DisPlayNode;
     constructor() {
         super();
@@ -74,6 +74,11 @@ export default class EditorPanel extends Box {
         this.selectElement = display;
         display.on(TOUCH_BEGIN, () => {
             this.selectElement = display;
-        }, this)
+        }, this);
+        this.refleshTree();
+    }
+
+    private refleshTree(): void {
+        this.tree.refleshTree(this.operatorBox.children);
     }
 }
