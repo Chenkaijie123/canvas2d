@@ -114,7 +114,8 @@ export default class DisPlayNode extends Display implements ILayout {
         GlobalMgr.ticker.nextTick(this.measure, this);
     }
 
-    private measure(): void {
+    /**@private */
+    measure(): void {
         this.onMeasure();
         this.onLayout(this.children);
         this.dispatch(SIZE_CHANGE);

@@ -1,11 +1,11 @@
 import Dispatcher from "../event/Dispatcher"
 import { CALL_FRAME } from "../event/EventConst"
-import SystemPerformance from "../SystemPerformance";
+// import SystemPerformance from "../SystemPerformance";
 
 export default class Ticker extends Dispatcher {
     private state: number = 0;
     private isStop: boolean = true;
-    @SystemPerformance.logCostTime("loop", 10)
+    // @SystemPerformance.logCostTime("loop", 10)
     private loop(): void {
         if (this.state != 1) {
             this.isStop = true;

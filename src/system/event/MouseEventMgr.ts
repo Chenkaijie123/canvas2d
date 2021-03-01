@@ -173,6 +173,8 @@ export default class MouseEventMgr {
                 resault.push(node);
             }
             if (node.children.length) {
+                node._tempPoint.x -= node.scrollX;
+                node._tempPoint.y -= node.scrollY;
                 this.checkList(node._tempPoint.x, node._tempPoint.y, node.children, resault);
             }
             // }

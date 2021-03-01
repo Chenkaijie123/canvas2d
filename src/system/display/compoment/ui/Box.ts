@@ -26,11 +26,6 @@ export default class Box extends DisPlayNode {
     addChild(v: DisPlayNode): void {
         super.addChild(v);
         v.on(SIZE_CHANGE, this.sizeChangeCallLater, this);
-        // if (this.autoReSize) {
-        //     this.sizeChangeCallLater();
-        // } else {
-        //     Layout.onLayout(v);
-        // }
         this.sizeChangeCallLater();
     }
 
@@ -39,5 +34,11 @@ export default class Box extends DisPlayNode {
         v.off(SIZE_CHANGE, this.sizeChangeCallLater, this);
     }
 
+    calcSizeNow():void{
+        for(let i of this.children){
+            i.measure()
+        }
+        this.sizeChange();
+    }
 
 }

@@ -14,6 +14,8 @@ export const TOUCH_DOUBLE: symbol = Symbol();
 
 //--------ui--------------
 export const SIZE_CHANGE: symbol = Symbol();
+export const SCROLLER_CHANGE: symbol = Symbol();
+export const SCROLLER_END: symbol = Symbol();
 
 //system
 export const DISPLAY_TREE_SELECT: symbol = Symbol();
