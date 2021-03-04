@@ -87,7 +87,7 @@ export default class List<T> extends Scroller {
     addItem(): DisPlayNode {
         let item = this.listItemsPool.pop() || new this._itemRender();
         this.listItems.push(item);
-        this.addChild(item);
+        this.addChild(item); 
         return item;
     }
 
