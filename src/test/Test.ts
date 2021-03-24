@@ -1,6 +1,7 @@
 import ByteTest from "./ByteTest";
 import GraphicalTest from "./GraphicalTest";
 import GraphicisTest from "./GraphicisTest";
+import HtmlLabelTest from "./HtmlLabelTest";
 import LayoutTest from "./LayoutTest";
 import ListTest from "./ListTest";
 import MouseEvtTest from "./MouseEvtTest";
@@ -18,6 +19,7 @@ export default class Test {
         new TreeTest()
         new TextInputTest()
         new ScrollerTest()
-        new ListTest(true)
+        new ListTest()
+        new HtmlLabelTest(true);
     }
 }

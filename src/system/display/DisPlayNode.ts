@@ -88,6 +88,13 @@ export default class DisPlayNode extends Display implements ILayout {
         }
     }
 
+    removeChildren():void{
+        let node:DisPlayNode;
+        while(node = this.children[0]){
+            node.removeSelf();
+        }
+    }
+
     on(type: string | symbol, callback: Function, caller: any, args?: any[]): boolean {
         let state = super.on(type, callback, caller, args);
         if (typeof type == "symbol" && DisPlayNode.TOUCHEVT.indexOf(type) >= 0 && state) {
