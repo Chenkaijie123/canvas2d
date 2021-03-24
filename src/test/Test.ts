@@ -20,6 +20,6 @@ export default class Test {
         new TextInputTest()
         new ScrollerTest()
         new ListTest()
-        new HtmlLabelTest(true);
+        new HtmlLabelTest();
     }
 }

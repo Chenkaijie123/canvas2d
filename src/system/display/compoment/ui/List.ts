@@ -132,7 +132,7 @@ export default class List<T> extends Scroller {
     /**列表项复用 */
     private onScrollerChange(): void {
         if (this.dirction == 1) {
-            if (this.listItems[0].y < -this.itemHeight - this.scrollY && this.data.length > this.startIndex + this.itemNum) {
+            if (this.listItems[0].y < -this.itemHeight - this.scrollY && this.data.length > this.startIndex + this.itemNum + 1) {
                 this.listItems[0].y = this.listItems[this.listItems.length - 1].y + this.itemHeight + this.paddingTop;
                 this.listItems.push(this.listItems[0]);
                 this.renderHandle && this.renderHandle(this.listItems[0], this.data[this.startIndex + this.itemNum + 1], this.startIndex + this.itemNum + 1)
