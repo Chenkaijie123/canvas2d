@@ -9,10 +9,10 @@ export default class EditorTreeNode extends Box implements ITreeNode {
     label: CLabel = new CLabel;
     constructor() {
         super();
-        this.narrow.width = this.narrow.height = 30;
-        this.narrow.fontSize = 30;
+        this.narrow.width = this.narrow.height = 20;
+        this.narrow.fontSize = 20;
         this.addChild(this.narrow);
-        this.label.fontSize = 30;
+        this.label.fontSize = 20;
         this.label.x = 30;
         this.addChild(this.label);
 

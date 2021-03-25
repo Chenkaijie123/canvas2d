@@ -2,6 +2,7 @@ import Stage from "../display/Stage";
 import Dispatcher from "../event/Dispatcher";
 import MouseEventMgr from "../event/MouseEventMgr";
 import Render from "../render/Render";
+// import SystemPerformance from "../SystemPerformance";
 import Ticker from "../ticker/Ticker";
 import GlobalMgr from "./GlobalMgr";
 
@@ -27,6 +28,7 @@ export default class Canvas {
         GlobalMgr.dispatcher = new Dispatcher;
     }
 
+    // @SystemPerformance.logCostTime("render",5)
     private startRender(): void {
         this.render.resetMatrix();
         this.render.clear();

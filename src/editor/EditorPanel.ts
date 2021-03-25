@@ -9,6 +9,7 @@ import { SELECT_ELEMENT, TOUCH_BEGIN, TOUCH_END, TOUCH_MOVE } from "../system/ev
 import SysTemTouchEvent from "../system/event/eventStruct/SysTemTouchEvent";
 import GlobalMgr from "../system/global/GlobalMgr";
 import EditorAttrbuteView from "./EditorAttrbuteView";
+import EditorMdl from "./EditorMdl";
 import EditorTree from "./EditorTree";
 import TopOperator from "./TopOperator";
 
@@ -39,13 +40,20 @@ export default class EditorPanel extends Box {
         this.operatorBox.width = GlobalMgr.stage.width;
         this.operatorBox.height = GlobalMgr.stage.height;
         this.tree = new EditorTree;
+        this.tree.width = 300;
+        this.tree.height = GlobalMgr.stage.height;
+        this.tree.right = 0;
         this.addChild(this.tree);
         this.attrView = new EditorAttrbuteView;
+        this.attrView.right = 300;
+        this.attrView.width = 300;
+        this.attrView.height = GlobalMgr.stage.height;
         this.addChild(this.attrView);
         this.stage.on(TOUCH_MOVE, this.onMove, this);
         this.stage.on(TOUCH_END, () => {
             this.selectElement = null;
         }, this);
+        EditorMdl.ins.on(EditorMdl.ATTRCHANGE, this.changeValue, this);
     }
 
     private onMove(e: SysTemTouchEvent): void {
@@ -92,5 +100,15 @@ export default class EditorPanel extends Box {
 
     private refleshTree(): void {
         this.tree.refleshTree(this.operatorBox.children);
+    }
+
+    public changeValue(data: { key: string, value: any }): void {
+        let { key, value } = data;
+        if (!this.element) return;
+        if (typeof this.element[key.substring(1)] == "number") {
+            this.element[key.substring(1)] = +value;
+        } else {
+            this.element[key.substring(1)] = value;
+        }
     }
 }

@@ -183,23 +183,36 @@ export default class Display extends Dispatcher {
 
     localToGlobal(temp: Point): Point {
         let display: DisPlayNode = (this as unknown as DisPlayNode).parent;
+        if (display.scrollX) temp.x += display.scrollX;
+        if (display.scrollY) temp.y += display.scrollY;
+        let arr: DisPlayNode[] = [];
         while (display) {
-            display.updateIeverseMatrix();
-            display._inverseMatrix.transFormPoint(temp);
+            arr.push(display);
             display = display.parent;
         }
+        let matrix: Matrix = new Matrix;
+        matrix.setTo(arr.pop().matrix);
+        arr.reverse();
+        arr.forEach(v => {
+            if(v.scrollX) temp.x += v.scrollX;
+            if(v.scrollY) temp.y += v.scrollY;
+            matrix.MatrixMulti(v.matrix)
+        })
+        matrix.transFormPoint(temp);
         return temp;
     }
 
     globalToLocal(temp: Point): Point {
-        let arr: Matrix[] = [];
+        let arr: DisPlayNode[] = [];
         let display: DisPlayNode = this as unknown as DisPlayNode;
         while (display) {
-            arr.push(display.matrix);
+            arr.push(display);
             display = display.parent;
         }
         arr.reverse().forEach(v => {
-            v.transFormPoint(temp);
+            v.matrix.transFormPoint(temp);
+            if (v.scrollX) temp.x += v.scrollX;
+            if (v.scrollY) temp.y += v.scrollY;
         })
         return temp;
     }

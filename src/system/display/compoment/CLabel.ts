@@ -8,8 +8,8 @@ export default class CLabel extends DisPlayNode {
     private offsetYMessage: number = 0;
 
     private _text: string = "";
-    private _fontSize: number = 20;
-    fontColor: string = "#c5b596";
+    private _fontSize: number = 18;
+    fontColor: string = "#000000";
     fontFamily: string = "sans-serif";
     strokeColor: string = "#000000";
     border: boolean = false;
